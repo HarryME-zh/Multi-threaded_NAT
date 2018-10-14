@@ -8,7 +8,7 @@ This repo is mainly focus on the NAT performance analysis. There are two stages 
 
 The configuration of single-core NAT is based on Click language and is run with FastClick. In order to fulfil the NAT, we need to realize functions by using Click Elements. The following Figure is a flowchart to show how the configuration finishes the NAT process.
 
-![Flowchart of Single-core NAT configuration]()
+![Flowchart of Single-core NAT configuration](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/Script%20of%20Task%201/Single-core%20NAT.jpg)
 
 First, when the NAT machine received a packet, it needs to distinguish the type of the packet. If the packet is an ARP request, NAT will generate the response and send it to the corresponding interface. If the packet is an ARP response, then NAT will encapsulate ethernet header found via ARP into IP packets. If the packet is an IP packet, NAT will classify its type (TCP, UDP or ICMP) and send the packet into corresponding Rewriter Elements.
 
@@ -16,7 +16,7 @@ It is really similar for TCPRewriter, UDPRewriter, ICMPRewriter, and ICMPPingRew
 
 Since there is little information about how to make a NAT through click language, you can have a look on my code or maybe modify it to fit your requirements. For this script, it  needs DPDK supported which means you need to bind your NICs with DPDK driver.
 
-Here is the script for [Single core NAT](). I also add the ICMP rewriting function into the NAT.
+Here is the script for [Single core NAT](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/Script%20of%20Task%201/Single_core_NAT_with_DPDK.click.txt). I have also added the ICMP rewriting function into the NAT.
 
 ## Task 2 - Develop a multi-thread NAT
 
