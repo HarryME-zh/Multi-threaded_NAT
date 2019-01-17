@@ -25,7 +25,6 @@ However, blocking whole elements will waste time ,for some operations irrelative
 
 ![Packet handling process of UDPRewriter](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/FlowChart/Finer-grained.png)
 
-Also, you can find the locked FastClick version in branch [FastClick_Locked](https://gits-15.sys.kth.se/yfan/IK2200_NAT/tree/FastClick_Locked).
 
 ### Per-core duplication, with software classification
 
@@ -52,7 +51,7 @@ After achieving the incoming packet, the separate core will check its packet typ
 ### Removing Heap Tree
 
 FastClick uses a heap tree to deal with the time expiry. But, for a multi-threaded NAT, heap tree became a big problem. It is really hard to make multi-threaded safe and only can be maintained by cores separately. In order to deal with this problem, we decided to remove heap tree and introduce a new mechanism to deal with flow timeout. Actually, it can be done directly in the hashtable.
-In FastClick, every element stored in the hashtable is added to the head of the link list. After rebalancing, if the link list is over the length threshold, a NAT can delete all the flow elements at the end of the list to ensure the complexity of update and lookup. Also, every flow element queried is changed to the head of the list, so that the active flow will continue to be placed at the front of the list. This will also speed up update and query speed. You may find out the code in branch [FastClick_noheap](https://gits-15.sys.kth.se/yfan/IK2200_NAT/tree/FastClick_noheap).
+In FastClick, every element stored in the hashtable is added to the head of the link list. After rebalancing, if the link list is over the length threshold, a NAT can delete all the flow elements at the end of the list to ensure the complexity of update and lookup. Also, every flow element queried is changed to the head of the list, so that the active flow will continue to be placed at the front of the list. This will also speed up update and query speed.
 
 ### Cuckoo Hash
 
@@ -62,7 +61,7 @@ It is multi-thread safe and decreases the lookup operations significantly. The i
 
 ![Cuckoo Hash](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/FlowChart/cuckoo.png)
 
-Cuckoo hash implementation pushes elements out of their bucket, if there is a new entry to be added which primary location coincides with their current bucket, being pushed to their alternative location. Therefore, as user adds more entries to the hashtable, distribution of the hash values in the buckets will change, being most of them in their primary location and a few in their secondary location, which the later will increase, as table gets busier. This information is quite useful, as performance may be lower as more entries are evicted to their secondary location. You can find out the code at [cuckoohash.hh](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/cuckoohash.hh) and [cuckoohash.cc](https://github.com/Mr-Hongyi/Multi-threaded_NAT/blob/master/cuckoohash.cc)
+Cuckoo hash implementation pushes elements out of their bucket, if there is a new entry to be added which primary location coincides with their current bucket, being pushed to their alternative location. Therefore, as user adds more entries to the hashtable, distribution of the hash values in the buckets will change, being most of them in their primary location and a few in their secondary location, which the later will increase, as table gets busier. This information is quite useful, as performance may be lower as more entries are evicted to their secondary location.
 
 ## Data Testing and Analysis
 
